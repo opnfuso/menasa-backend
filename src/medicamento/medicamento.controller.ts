@@ -21,8 +21,9 @@ export class MedicamentoController {
   }
 
   @Get()
-  findAll() {
-    return this.medicamentoService.findAll();
+  async findAll() {
+    const medicamentos = await this.medicamentoService.findAll();
+    return medicamentos;
   }
 
   @Get(':id')
