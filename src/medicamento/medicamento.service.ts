@@ -20,15 +20,15 @@ export class MedicamentoService {
     return this.medicamentoModel.find().exec();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} medicamento`;
   }
 
-  update(id: number, updateMedicamentoDto: UpdateMedicamentoDto) {
+  update(id: string, updateMedicamentoDto: UpdateMedicamentoDto) {
     return `This action updates a #${id} medicamento`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} medicamento`;
   }
 }
