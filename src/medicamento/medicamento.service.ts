@@ -21,7 +21,7 @@ export class MedicamentoService {
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} medicamento`;
+    return this.medicamentoModel.findOne({ _id: id }).exec();
   }
 
   update(id: string, updateMedicamentoDto: UpdateMedicamentoDto) {

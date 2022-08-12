@@ -27,8 +27,9 @@ export class MedicamentoController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.medicamentoService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const medicamento = await this.medicamentoService.findOne(id);
+    return medicamento;
   }
 
   @Patch(':id')
