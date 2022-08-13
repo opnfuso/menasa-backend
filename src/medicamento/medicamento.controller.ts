@@ -16,8 +16,11 @@ export class MedicamentoController {
   constructor(private readonly medicamentoService: MedicamentoService) {}
 
   @Post()
-  create(@Body() createMedicamentoDto: CreateMedicamentoDto) {
-    return this.medicamentoService.create(createMedicamentoDto);
+  async create(@Body() createMedicamentoDto: CreateMedicamentoDto) {
+    const medicamento = await this.medicamentoService.create(
+      createMedicamentoDto,
+    );
+    return medicamento;
   }
 
   @Get()
@@ -33,15 +36,19 @@ export class MedicamentoController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateMedicamentoDto: UpdateMedicamentoDto,
   ) {
-    return this.medicamentoService.update(id, updateMedicamentoDto);
+    const medicamento = await this.medicamentoService.update(
+      id,
+      updateMedicamentoDto,
+    );
+    return medicamento;
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.medicamentoService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.medicamentoService.remove(id);
+  // }
 }

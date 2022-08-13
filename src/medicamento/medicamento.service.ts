@@ -13,7 +13,7 @@ export class MedicamentoService {
   ) {}
 
   create(createMedicamentoDto: CreateMedicamentoDto) {
-    return 'This action adds a new medicamento';
+    return this.medicamentoModel.create(createMedicamentoDto);
   }
 
   async findAll() {
@@ -25,10 +25,10 @@ export class MedicamentoService {
   }
 
   update(id: string, updateMedicamentoDto: UpdateMedicamentoDto) {
-    return `This action updates a #${id} medicamento`;
+    return this.medicamentoModel.updateOne({ _id: id }, updateMedicamentoDto);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} medicamento`;
-  }
+  // remove(id: string) {
+  //   return `This action removes a #${id} medicamento`;
+  // }
 }
