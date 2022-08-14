@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
@@ -29,8 +29,17 @@ export class InventarioService {
       .exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} inventario`;
+  findOne(id: string) {
+    return this.inventarioModel
+      .aggregate()
+      .match({ _id: new Types.ObjectId(id) })
+      .lookup({
+        from: 'medicamentos',
+        localField: 'id_medicamento',
+        foreignField: '_id',
+        as: 'medicamento',
+      })
+      .exec();
   }
 
   update(id: number, updateInventarioDto: UpdateInventarioDto) {

@@ -28,7 +28,7 @@ export class InventarioController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.inventarioService.findOne(+id);
+    return this.inventarioService.findOne(id);
   }
 
   @Patch(':id')
