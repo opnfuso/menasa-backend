@@ -18,7 +18,15 @@ export class InventarioService {
   }
 
   findAll() {
-    return this.inventarioModel.find().exec();
+    return this.inventarioModel
+      .aggregate()
+      .lookup({
+        from: 'medicamentos',
+        localField: 'id_medicamento',
+        foreignField: '_id',
+        as: 'medicamento',
+      })
+      .exec();
   }
 
   findOne(id: number) {
