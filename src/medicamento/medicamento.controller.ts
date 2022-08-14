@@ -6,10 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { MedicamentoService } from './medicamento.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
+import { empty } from 'rxjs';
 
 @Controller('medicamento')
 export class MedicamentoController {
@@ -20,6 +24,20 @@ export class MedicamentoController {
     const medicamento = await this.medicamentoService.create(
       createMedicamentoDto,
     );
+    return medicamento;
+  }
+
+  @Get('findByFilter')
+  async findByFilter(@Query() query: any) {
+    const medicamento = await this.medicamentoService.findByFilter(query);
+
+    if (medicamento === undefined) {
+      throw new HttpException(
+        'No se existe ese parametro de filtro',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     return medicamento;
   }
 
