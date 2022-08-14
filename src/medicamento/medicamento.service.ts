@@ -25,10 +25,6 @@ export class MedicamentoService {
   }
 
   findByFilter(filter: any) {
-    if (filter.nombre === undefined && filter.codigo_barras === undefined) {
-      return undefined;
-    }
-
     if (filter.nombre !== undefined) {
       return this.medicamentoModel
         .find({ nombre: { $regex: filter.nombre } })
@@ -40,6 +36,8 @@ export class MedicamentoService {
         .findOne({ codigo_barras: filter.codigo_barras })
         .exec();
     }
+
+    return undefined;
   }
 
   update(id: string, updateMedicamentoDto: UpdateMedicamentoDto) {
