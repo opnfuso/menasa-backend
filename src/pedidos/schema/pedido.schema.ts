@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type PedidosStandbyDocument = Document & PedidosStandby;
+export type PedidosDocument = Document & Pedido;
 
 class Inventario {
   @Prop({ required: true, type: Types.ObjectId })
@@ -29,16 +29,21 @@ class Medicamento {
 }
 
 @Schema()
-export class PedidosStandby {
+export class Pedido {
   @Prop({ required: true })
   cliente: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: Date.now })
   fecha_entrada: Date;
 
   @Prop({ required: true })
   medicamentos: Array<Medicamento>;
+
+  @Prop({ required: true, default: false })
+  completado: boolean;
+
+  @Prop({ required: true })
+  fecha_salida: Date;
 }
 
-export const PedidosStandbySchema =
-  SchemaFactory.createForClass(PedidosStandby);
+export const PedidosSchema = SchemaFactory.createForClass(Pedido);

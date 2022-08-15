@@ -8,14 +8,17 @@ class Lote {
   fecha_vencimiento: Date;
 
   @Prop({ required: true })
+  fecha_ingreso: Date;
+
+  @Prop({ required: true })
   cantidad: number;
+
+  @Prop({ required: true })
+  lote: string;
 }
 
 @Schema()
 export class Inventario {
-  @Prop({ required: true })
-  caducidad: Date;
-
   @Prop({ required: true })
   fecha_ingreso: Date;
 

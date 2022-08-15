@@ -4,8 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { MedicamentoModule } from './medicamento/medicamento.module';
 import { InventarioModule } from './inventario/inventario.module';
-import { PedidosRealizadosModule } from './pedidos_realizados/pedidos_realizados.module';
-import { PedidosStandbyModule } from './pedidos_standby/pedidos_standby.module';
+import { PedidosModule } from './pedidos/pedidos.module';
 
 ConfigModule.forRoot();
 
@@ -17,8 +16,7 @@ ConfigModule.forRoot();
     }),
     MedicamentoModule,
     InventarioModule,
-    PedidosRealizadosModule,
-    PedidosStandbyModule,
+    PedidosModule,
   ],
 })
 export class AppModule {}

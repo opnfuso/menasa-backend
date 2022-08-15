@@ -1,13 +1,6 @@
+import { Schema } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
-import {
-  IsInt,
-  IsNotEmpty,
-  IsNumber,
-  Min,
-  IsArray,
-  IsISO8601,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsInt, IsNotEmpty, IsNumber, Min } from 'class-validator';
 
 class Inventario {
   @IsNotEmpty()
@@ -32,17 +25,14 @@ class Medicamento {
   precio_total: number;
 
   @IsArray()
-  @ValidateNested({ each: true })
   @Type(() => Inventario)
   id_inventario: Array<Inventario>;
 }
 
-export class CreatePedidosStandbyDto {
+@Schema()
+export class CreatePedidoDto {
   @IsNotEmpty()
   cliente: string;
-
-  @IsISO8601()
-  fecha_entrada: Date;
 
   @IsArray()
   @Type(() => Medicamento)
