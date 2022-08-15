@@ -16,7 +16,7 @@ export class PedidosStandbyService {
   ) {}
 
   create(createPedidosStandbyDto: CreatePedidosStandbyDto) {
-    return this.pedidosstandbyModel.create(CreatePedidosStandbyDto);
+    return this.pedidosstandbyModel.create(createPedidosStandbyDto);
   }
 
   findAll() {

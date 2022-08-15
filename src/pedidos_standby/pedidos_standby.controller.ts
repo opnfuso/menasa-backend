@@ -16,8 +16,11 @@ export class PedidosStandbyController {
   constructor(private readonly pedidosStandbyService: PedidosStandbyService) {}
 
   @Post()
-  create(@Body() createPedidosStandbyDto: CreatePedidosStandbyDto) {
-    return this.pedidosStandbyService.create(createPedidosStandbyDto);
+  async create(@Body() createPedidosStandbyDto: CreatePedidosStandbyDto) {
+    const inventario = await this.pedidosStandbyService.create(
+      createPedidosStandbyDto,
+    );
+    return inventario;
   }
 
   @Get()

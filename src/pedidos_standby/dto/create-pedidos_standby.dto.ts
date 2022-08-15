@@ -1,10 +1,12 @@
+import { Type } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
   IsNumber,
   Min,
-  IsDate,
   IsArray,
+  IsISO8601,
+  ValidateNested,
 } from 'class-validator';
 
 class Inventario {
@@ -30,6 +32,8 @@ class Medicamento {
   precio_total: number;
 
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Inventario)
   id_inventario: Array<Inventario>;
 }
 
@@ -37,9 +41,10 @@ export class CreatePedidosStandbyDto {
   @IsNotEmpty()
   cliente: string;
 
-  @IsDate()
+  @IsISO8601()
   fecha_entrada: Date;
 
   @IsArray()
-  medicamento: Array<Medicamento>;
+  @Type(() => Medicamento)
+  medicamentos: Array<Medicamento>;
 }
