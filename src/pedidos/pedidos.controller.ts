@@ -16,18 +16,18 @@ export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
   @Post()
-  create(@Body() createPedidoDto: CreatePedidoDto) {
-    return this.pedidosService.create(createPedidoDto);
+  async create(@Body() createPedidoDto: CreatePedidoDto) {
+    return await this.pedidosService.create(createPedidoDto);
   }
 
   @Get()
-  findAll() {
-    return this.pedidosService.findAll();
+  async findAll() {
+    return await this.pedidosService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pedidosService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.pedidosService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,8 +35,8 @@ export class PedidosController {
     return this.pedidosService.update(id, updatePedidoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pedidosService.remove(id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.pedidosService.remove(id);
+  // }
 }

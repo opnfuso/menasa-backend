@@ -22,8 +22,7 @@ export class InventarioController {
 
   @Get()
   async findAll() {
-    const inventario = await this.inventarioService.findAll();
-    return inventario;
+    return await this.inventarioService.findAll();
   }
 
   @Get(':id')
@@ -39,8 +38,8 @@ export class InventarioController {
     return this.inventarioService.update(+id, updateInventarioDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.inventarioService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.inventarioService.remove(+id);
+  // }
 }

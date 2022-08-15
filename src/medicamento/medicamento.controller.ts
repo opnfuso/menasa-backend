@@ -13,7 +13,6 @@ import {
 import { MedicamentoService } from './medicamento.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
-import { empty } from 'rxjs';
 
 @Controller('medicamento')
 export class MedicamentoController {
@@ -21,10 +20,7 @@ export class MedicamentoController {
 
   @Post()
   async create(@Body() createMedicamentoDto: CreateMedicamentoDto) {
-    const medicamento = await this.medicamentoService.create(
-      createMedicamentoDto,
-    );
-    return medicamento;
+    return await this.medicamentoService.create(createMedicamentoDto);
   }
 
   @Get('findByFilter')
@@ -43,14 +39,12 @@ export class MedicamentoController {
 
   @Get()
   async findAll() {
-    const medicamentos = await this.medicamentoService.findAll();
-    return medicamentos;
+    return await this.medicamentoService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const medicamento = await this.medicamentoService.findOne(id);
-    return medicamento;
+    return await this.medicamentoService.findOne(id);
   }
 
   @Patch(':id')
@@ -58,11 +52,7 @@ export class MedicamentoController {
     @Param('id') id: string,
     @Body() updateMedicamentoDto: UpdateMedicamentoDto,
   ) {
-    const medicamento = await this.medicamentoService.update(
-      id,
-      updateMedicamentoDto,
-    );
-    return medicamento;
+    return await this.medicamentoService.update(id, updateMedicamentoDto);
   }
 
   // @Delete(':id')

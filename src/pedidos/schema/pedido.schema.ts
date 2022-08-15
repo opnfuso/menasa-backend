@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type PedidosDocument = Document & Pedido;
+export type PedidoDocument = Document & Pedido;
 
 class Inventario {
   @Prop({ required: true, type: Types.ObjectId })
@@ -42,8 +42,8 @@ export class Pedido {
   @Prop({ required: true, default: false })
   completado: boolean;
 
-  @Prop({ required: true })
+  @Prop({ required: false, default: null })
   fecha_salida: Date;
 }
 
-export const PedidosSchema = SchemaFactory.createForClass(Pedido);
+export const PedidoSchema = SchemaFactory.createForClass(Pedido);

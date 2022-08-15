@@ -2,18 +2,18 @@ import { Module } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { PedidosController } from './pedidos.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PedidosSchema } from './schema/pedido.schema';
+import { Pedido, PedidoSchema } from './schema/pedido.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: PedidosModule.name,
-        schema: PedidosSchema,
+        name: Pedido.name,
+        schema: PedidoSchema,
       },
     ]),
   ],
   controllers: [PedidosController],
   providers: [PedidosService],
 })
-export class PedidosModule {}
+export class PedidoModule {}
