@@ -27,7 +27,7 @@ export class PedidosStandbyController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pedidosStandbyService.findOne(+id);
+    return this.pedidosStandbyService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class PedidosStandbyController {
     @Param('id') id: string,
     @Body() updatePedidosStandbyDto: UpdatePedidosStandbyDto,
   ) {
-    return this.pedidosStandbyService.update(+id, updatePedidosStandbyDto);
+    return this.pedidosStandbyService.update(id, updatePedidosStandbyDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pedidosStandbyService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.pedidosStandbyService.remove(id);
+  // }
 }

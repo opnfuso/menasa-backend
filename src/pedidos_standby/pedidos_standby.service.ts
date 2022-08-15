@@ -16,22 +16,25 @@ export class PedidosStandbyService {
   ) {}
 
   create(createPedidosStandbyDto: CreatePedidosStandbyDto) {
-    return 'This action adds a new pedidosStandby';
+    return this.pedidosstandbyModel.create(CreatePedidosStandbyDto);
   }
 
   findAll() {
     return this.pedidosstandbyModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pedidosStandby`;
+  findOne(id: string) {
+    return this.pedidosstandbyModel.findOne({ _id: id }).exec();
   }
 
-  update(id: number, updatePedidosStandbyDto: UpdatePedidosStandbyDto) {
-    return `This action updates a #${id} pedidosStandby`;
+  update(id: string, updatePedidosStandbyDto: UpdatePedidosStandbyDto) {
+    return this.pedidosstandbyModel.updateOne(
+      { _id: id },
+      updatePedidosStandbyDto,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pedidosStandby`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} pedidosStandby`;
+  // }
 }
