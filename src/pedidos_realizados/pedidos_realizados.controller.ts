@@ -18,8 +18,11 @@ export class PedidosRealizadosController {
   ) {}
 
   @Post()
-  create(@Body() createPedidosRealizadoDto: CreatePedidosRealizadoDto) {
-    return this.pedidosRealizadosService.create(createPedidosRealizadoDto);
+  async create(@Body() createPedidosRealizadoDto: CreatePedidosRealizadoDto) {
+    const pedidoC = await this.pedidosRealizadosService.create(
+      createPedidosRealizadoDto,
+    );
+    return pedidoC;
   }
 
   @Get()
@@ -29,7 +32,7 @@ export class PedidosRealizadosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pedidosRealizadosService.findOne(+id);
+    return this.pedidosRealizadosService.findOne(id);
   }
 
   @Patch(':id')
@@ -37,11 +40,11 @@ export class PedidosRealizadosController {
     @Param('id') id: string,
     @Body() updatePedidosRealizadoDto: UpdatePedidosRealizadoDto,
   ) {
-    return this.pedidosRealizadosService.update(+id, updatePedidosRealizadoDto);
+    return this.pedidosRealizadosService.update(id, updatePedidosRealizadoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pedidosRealizadosService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.pedidosRealizadosService.remove(id);
+  // }
 }
