@@ -19,7 +19,7 @@ export class Inventario {
   @Prop({ required: true })
   fecha_ingreso: Date;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   observaciones: string;
 
   @Prop({ required: true })
