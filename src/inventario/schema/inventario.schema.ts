@@ -19,9 +19,6 @@ class Lote {
 
 @Schema()
 export class Inventario {
-  @Prop({ required: true })
-  fecha_ingreso: Date;
-
   @Prop({ required: false })
   observaciones: string;
 

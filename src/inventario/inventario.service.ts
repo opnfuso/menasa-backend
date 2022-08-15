@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
 import { Inventario, InventarioDocument } from './schema/inventario.schema';
@@ -14,7 +13,7 @@ export class InventarioService {
   ) {}
 
   create(createInventarioDto: CreateInventarioDto) {
-    return 'This action adds a new inventario';
+    return this.inventarioModel.create(createInventarioDto);
   }
 
   findAll() {
@@ -42,11 +41,13 @@ export class InventarioService {
       .exec();
   }
 
-  update(id: number, updateInventarioDto: UpdateInventarioDto) {
-    return `This action updates a #${id} inventario`;
+  update(id: string, updateInventarioDto: UpdateInventarioDto) {
+    return this.inventarioModel
+      .updateOne({ _id: id }, updateInventarioDto)
+      .exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} inventario`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} inventario`;
+  // }
 }

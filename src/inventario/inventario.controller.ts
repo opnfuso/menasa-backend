@@ -35,7 +35,7 @@ export class InventarioController {
     @Param('id') id: string,
     @Body() updateInventarioDto: UpdateInventarioDto,
   ) {
-    return this.inventarioService.update(+id, updateInventarioDto);
+    return this.inventarioService.update(id, updateInventarioDto);
   }
 
   // @Delete(':id')
