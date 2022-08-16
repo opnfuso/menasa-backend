@@ -7,14 +7,14 @@ import {
   Min,
   IsISO8601,
   ValidateNested,
+  IsMongoId,
+  IsOptional,
 } from 'class-validator';
+import mongoose from 'mongoose';
 
 class Lote {
   @IsISO8601()
   fecha_vencimiento: Date;
-
-  @IsISO8601()
-  fecha_ingreso: Date;
 
   @IsInt()
   @Min(1)
@@ -25,8 +25,8 @@ class Lote {
   lote: string;
 }
 export class CreateInventarioDto {
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   observaciones: string;
 
   @IsArray()
@@ -38,7 +38,7 @@ export class CreateInventarioDto {
   @Min(1)
   piezas: number;
 
-  @IsString()
+  @IsMongoId()
   @IsNotEmpty()
-  id_medicamento: string;
+  id_medicamento: mongoose.Types.ObjectId;
 }

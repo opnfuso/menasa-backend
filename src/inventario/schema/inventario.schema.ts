@@ -1,13 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MSchema } from 'mongoose';
+import { Medicamento } from 'src/medicamento/schema/medicamento.schema';
 
 export type InventarioDocument = Document & Inventario;
 
 class Lote {
-  @Prop({ required: true })
+  @Prop({ required: false })
   fecha_vencimiento: Date;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: Date.now })
   fecha_ingreso: Date;
 
   @Prop({ required: true })
@@ -19,7 +20,7 @@ class Lote {
 
 @Schema()
 export class Inventario {
-  @Prop({ required: false })
+  @Prop({ required: false, default: null })
   observaciones: string;
 
   @Prop({ required: true })
@@ -28,8 +29,8 @@ export class Inventario {
   @Prop({ required: true })
   piezas: number;
 
-  @Prop({ required: true, type: Types.ObjectId })
-  id_medicamento: string;
+  @Prop({ required: true, type: MSchema.Types.ObjectId, ref: Medicamento.name })
+  id_medicamento: Medicamento;
 }
 
 export const InventarioSchema = SchemaFactory.createForClass(Inventario);

@@ -16,8 +16,9 @@ export class InventarioController {
   constructor(private readonly inventarioService: InventarioService) {}
 
   @Post()
-  create(@Body() createInventarioDto: CreateInventarioDto) {
-    return this.inventarioService.create(createInventarioDto);
+  async create(@Body() createInventarioDto: CreateInventarioDto) {
+    console.log(createInventarioDto.id_medicamento);
+    return await this.inventarioService.create(createInventarioDto);
   }
 
   @Get()

@@ -17,7 +17,17 @@ export class PedidosService {
   }
 
   findAll() {
-    return this.pedidoModel.find().exec();
+    return this.pedidoModel
+      .find()
+      .populate({
+        path: 'medicamentos.id_inventario',
+        populate: [
+          {
+            path: 'id_medicamento',
+          },
+        ],
+      })
+      .exec();
   }
 
   findOne(id: string) {
