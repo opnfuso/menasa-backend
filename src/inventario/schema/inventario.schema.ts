@@ -5,10 +5,10 @@ import { Medicamento } from 'src/medicamento/schema/medicamento.schema';
 export type InventarioDocument = Document & Inventario;
 
 class Lote {
-  @Prop({ required: false })
+  @Prop({ required: false, type: MSchema.Types.Date })
   fecha_vencimiento: Date;
 
-  @Prop({ required: true, default: Date.now })
+  @Prop({ required: true, default: Date.now, type: MSchema.Types.Date })
   fecha_ingreso: Date;
 
   @Prop({ required: true })

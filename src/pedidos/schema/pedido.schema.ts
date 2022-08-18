@@ -38,13 +38,13 @@ export class Pedido {
   @Prop({ required: true })
   cliente: string;
 
-  @Prop({ required: true, default: Date.now })
+  @Prop({ required: true, default: Date.now, type: MSchema.Types.Date })
   fecha_entrada: Date;
 
   @Prop({ required: true, default: false })
   completado: boolean;
 
-  @Prop({ required: false, default: null })
+  @Prop({ required: false, default: null, type: MSchema.Types.Date })
   fecha_salida: Date;
 
   @Prop(

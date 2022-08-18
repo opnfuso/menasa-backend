@@ -5,16 +5,19 @@ import {
   IsNotEmpty,
   IsString,
   Min,
-  IsISO8601,
   ValidateNested,
   IsMongoId,
   IsOptional,
+  IsDateString,
 } from 'class-validator';
 import mongoose from 'mongoose';
 
 class Lote {
-  @IsISO8601()
+  @IsDateString()
   fecha_vencimiento: Date;
+
+  @IsDateString()
+  fecha_ingreso: Date;
 
   @IsInt()
   @Min(1)

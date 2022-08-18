@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsDateString,
   IsInt,
-  IsISO8601,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -45,7 +45,7 @@ export class CreatePedidoDto {
   cliente: string;
 
   @IsOptional()
-  @IsISO8601()
+  @IsDateString()
   fecha_salida: Date;
 
   @IsArray()
