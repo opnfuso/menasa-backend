@@ -13,6 +13,12 @@ export class Medicamento {
 
   @Prop({ required: true })
   precio: number;
+
+  @Prop({ required: true })
+  compuesto_activo: string;
+
+  @Prop({ required: true })
+  laboratorio: string;
 }
 
 export const MedicamentoSchema = SchemaFactory.createForClass(Medicamento);
