@@ -36,6 +36,7 @@ lerna-debug.log*
 
 # Dotenv
 .env
+.env.dev
 
 # VSCode
 .vscode
