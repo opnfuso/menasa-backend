@@ -16,13 +16,13 @@ class Lote {
 
   @Prop({ required: true })
   lote: string;
+
+  @Prop({ required: false, default: null })
+  observaciones: string;
 }
 
 @Schema()
 export class Inventario {
-  @Prop({ required: false, default: null })
-  observaciones: string;
-
   @Prop({ required: true })
   lotes: Array<Lote>;
 

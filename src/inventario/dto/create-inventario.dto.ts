@@ -23,12 +23,12 @@ class Lote {
   @IsString()
   @IsNotEmpty()
   lote: string;
-}
-export class CreateInventarioDto {
+
   @IsOptional()
   @IsString()
   observaciones: string;
-
+}
+export class CreateInventarioDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => Lote)
