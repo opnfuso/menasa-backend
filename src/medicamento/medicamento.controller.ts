@@ -9,10 +9,15 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { MedicamentoService } from './medicamento.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { getAuth } from 'firebase-admin/auth';
 
 @Controller('medicamento')
 export class MedicamentoController {
@@ -37,8 +42,10 @@ export class MedicamentoController {
     return medicamento;
   }
 
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
-  async findAll() {
+  async findAll(@Req() request: Request) {
+    // const token = request.headers.authorization.split(' ')[1]
     return await this.medicamentoService.findAll();
   }
 
@@ -60,3 +67,4 @@ export class MedicamentoController {
   //   return this.medicamentoService.remove(id);
   // }
 }
+

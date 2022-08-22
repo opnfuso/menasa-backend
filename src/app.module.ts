@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MedicamentoModule } from './medicamento/medicamento.module';
 import { InventarioModule } from './inventario/inventario.module';
 import { PedidoModule } from './pedidos/pedidos.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 ConfigModule.forRoot();
 
@@ -17,6 +19,8 @@ ConfigModule.forRoot();
     MedicamentoModule,
     InventarioModule,
     PedidoModule,
+    AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
