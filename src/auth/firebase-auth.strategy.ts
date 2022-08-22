@@ -5,19 +5,18 @@ import { auth } from 'firebase-admin';
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(Strategy) {
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    });
+  }
 
-    constructor() {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
-        });
-    }
-
-    validate(token) {
-        return auth()
-            .verifyIdToken(token, true)
-            .catch((err) => {
-                console.log(err);
-                throw new UnauthorizedException();
-            });
-    }
+  validate(token) {
+    return auth()
+      .verifyIdToken(token, true)
+      .catch((err) => {
+        console.log(err);
+        throw new UnauthorizedException();
+      });
+  }
 }

@@ -15,8 +15,8 @@ async function bootstrap() {
       projectId: process.env.FIREBASE_PROJECT_ID,
       privateKey,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    })
-  })
+    }),
+  });
 
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());

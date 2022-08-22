@@ -23,11 +23,13 @@ import { getAuth } from 'firebase-admin/auth';
 export class MedicamentoController {
   constructor(private readonly medicamentoService: MedicamentoService) {}
 
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   async create(@Body() createMedicamentoDto: CreateMedicamentoDto) {
     return await this.medicamentoService.create(createMedicamentoDto);
   }
 
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Get('findByFilter')
   async findByFilter(@Query() query: any) {
     const medicamento = await this.medicamentoService.findByFilter(query);
@@ -49,11 +51,13 @@ export class MedicamentoController {
     return await this.medicamentoService.findAll();
   }
 
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.medicamentoService.findOne(id);
   }
 
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -67,4 +71,3 @@ export class MedicamentoController {
   //   return this.medicamentoService.remove(id);
   // }
 }
-
