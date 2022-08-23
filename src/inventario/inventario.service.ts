@@ -14,6 +14,13 @@ export class InventarioService {
   ) {}
 
   create(createInventarioDto: CreateInventarioDto) {
+    let total: number;
+
+    createInventarioDto.lotes.forEach(lote => {
+      total += lote.cantidad;
+    });
+
+    createInventarioDto.piezas = total;
     return this.inventarioModel.create(createInventarioDto);
   }
 
@@ -29,6 +36,13 @@ export class InventarioService {
   }
 
   update(id: string, updateInventarioDto: UpdateInventarioDto) {
+    let total: number;
+
+    updateInventarioDto.lotes.forEach(lote => {
+      total += lote.cantidad;
+    });
+
+    updateInventarioDto.piezas = total;
     return this.inventarioModel
       .updateOne({ _id: id }, updateInventarioDto)
       .exec();
