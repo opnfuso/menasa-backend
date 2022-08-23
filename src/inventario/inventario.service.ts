@@ -16,7 +16,7 @@ export class InventarioService {
   create(createInventarioDto: CreateInventarioDto) {
     let total: number;
 
-    createInventarioDto.lotes.forEach(lote => {
+    createInventarioDto.lotes.forEach((lote) => {
       total += lote.cantidad;
     });
 
@@ -38,7 +38,7 @@ export class InventarioService {
   update(id: string, updateInventarioDto: UpdateInventarioDto) {
     let total: number;
 
-    updateInventarioDto.lotes.forEach(lote => {
+    updateInventarioDto.lotes.forEach((lote) => {
       total += lote.cantidad;
     });
 
