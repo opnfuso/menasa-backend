@@ -20,7 +20,6 @@ export class InventarioController {
   @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   async create(@Body() createInventarioDto: CreateInventarioDto) {
-    console.log(createInventarioDto.id_medicamento);
     return await this.inventarioService.create(createInventarioDto);
   }
 

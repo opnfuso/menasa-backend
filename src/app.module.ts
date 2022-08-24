@@ -7,6 +7,7 @@ import { InventarioModule } from './inventario/inventario.module';
 import { PedidoModule } from './pedidos/pedidos.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { ChatModule } from './chat/chat.module';
 
 ConfigModule.forRoot();
 
@@ -21,6 +22,7 @@ ConfigModule.forRoot();
     PedidoModule,
     AuthModule,
     UserModule,
+    ChatModule,
   ],
 })
 export class AppModule {}
