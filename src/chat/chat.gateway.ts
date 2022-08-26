@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
@@ -6,11 +7,12 @@ import {
   WsException,
   WsResponse,
 } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { auth } from 'firebase-admin';
 import { MessageDto } from './dto/message.dto';
 import { UsePipes } from '@nestjs/common';
 import { SocketValidationPipe } from 'src/pipes/wsvalidation.pipe';
+import { ChatService } from './chat.service';
 
 @WebSocketGateway({
   cors: {
@@ -18,32 +20,40 @@ import { SocketValidationPipe } from 'src/pipes/wsvalidation.pipe';
   },
 })
 export class ChatGateway {
+  constructor(private readonly chatService: ChatService) {}
   @WebSocketServer()
   server: Server;
 
   @UsePipes(new SocketValidationPipe())
   @SubscribeMessage('message')
-  async findAll(@MessageBody() data: MessageDto): Promise<WsResponse<any>> {
+  async findAll(@MessageBody() data: MessageDto): Promise<void> {
     let error = false;
 
-    const res = await auth()
+    const res: any = await auth()
       .verifyIdToken(data.token)
       .catch((err) => {
         console.error(err);
         error = true;
+        return err;
       });
-
-    console.log(res);
 
     const errResponse = {
       status: 'Unauthorized',
       statusCode: 401,
     };
 
-    if (error) {
+    if (error === false) {
+      const response = {
+        content: data.content,
+        isImage: data.isImage,
+        userId: res.uid,
+      };
+
+      this.chatService.create(response);
+
+      this.server.emit('broadcast', response);
+    } else {
       throw new WsException(errResponse);
     }
-
-    return { event: 'broadcast', data };
   }
 }

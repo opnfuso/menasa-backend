@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types, Schema as MSchema } from 'mongoose';
+import { Document, Schema as MSchema } from 'mongoose';
 import { Medicamento } from 'src/medicamento/schema/medicamento.schema';
 
 export type InventarioDocument = Document & Inventario;
