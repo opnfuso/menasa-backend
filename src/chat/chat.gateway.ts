@@ -13,6 +13,7 @@ import { MessageDto } from './dto/message.dto';
 import { UsePipes } from '@nestjs/common';
 import { SocketValidationPipe } from 'src/pipes/wsvalidation.pipe';
 import { ChatService } from './chat.service';
+import { getAuth } from 'firebase-admin/auth';
 
 @WebSocketGateway({
   cors: {
@@ -43,14 +44,16 @@ export class ChatGateway {
     };
 
     if (error === false) {
-      const response = {
+      const request = {
         content: data.content,
         isImage: data.isImage,
         userId: res.uid,
       };
 
-      this.chatService.create(response);
+      this.chatService.create(request);
+      const user = await getAuth().getUser(request.userId);
 
+      const response = { ...request, user: user };
       this.server.emit('broadcast', response);
     } else {
       throw new WsException(errResponse);

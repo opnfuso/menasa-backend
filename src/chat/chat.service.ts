@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateChatDto } from './dto/chat.dto';
 import { Chat, ChatDocument } from './schema/chat.schema';
+import { getAuth } from 'firebase-admin/auth';
 
 @Injectable()
 export class ChatService {
@@ -15,13 +16,37 @@ export class ChatService {
     return this.chatModel.create(createChatDto);
   }
 
-  findAll() {
-    return this.chatModel.find().exec();
+  async findAll() {
+    const users = await getAuth().listUsers();
+    const chats = await this.chatModel.find().exec();
+
+    // chats.forEach((chat, index) => {
+    //   chats[index].user = users.users.find(({ uid }) => uid === chat.userId);
+    // });
+
+    const user_chats = chats.map((chat) => {
+      const user = users.users.find(({ uid }) => uid === chat.userId);
+
+      const res = {
+        userId: chat.userId,
+        content: chat.content,
+        isImage: chat.isImage,
+        user: user,
+      };
+
+      console.log(res);
+
+      return res;
+    });
+
+    return user_chats;
   }
 
-  // findOne(id: string) {
-  //   return this.chatModel.findOne({ _id: id }).exec();
-  // }
+  async findOne(id: string) {
+    const chat = await this.chatModel.findOne({ _id: id }).exec();
+    const user = await getAuth().getUser(chat.userId);
+    return { ...chat, user };
+  }
 
   // update(id: string, updateChatDto: UpdateChatDto) {
   //   return this.chatModel.updateOne({ _id: id }, updateChatDto);
