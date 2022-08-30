@@ -13,7 +13,7 @@ export class InventarioService {
     private inventarioModel: Model<InventarioDocument>,
   ) {}
 
-  create(createInventarioDto: CreateInventarioDto) {
+  async create(createInventarioDto: CreateInventarioDto) {
     let total = 0;
 
     createInventarioDto.lotes.forEach((lote) => {

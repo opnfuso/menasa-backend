@@ -8,6 +8,7 @@ import { PedidoModule } from './pedidos/pedidos.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
+import { HistorialModule } from './historial/historial.module';
 
 ConfigModule.forRoot();
 
@@ -23,6 +24,7 @@ ConfigModule.forRoot();
     AuthModule,
     UserModule,
     ChatModule,
+    HistorialModule,
   ],
 })
 export class AppModule {}
