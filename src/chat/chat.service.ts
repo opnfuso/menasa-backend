@@ -18,7 +18,7 @@ export class ChatService {
 
   async findAll() {
     const users = await getAuth().listUsers();
-    const chats = await this.chatModel.find().exec();
+    const chats = await this.chatModel.find().limit(100).exec();
 
     // chats.forEach((chat, index) => {
     //   chats[index].user = users.users.find(({ uid }) => uid === chat.userId);
