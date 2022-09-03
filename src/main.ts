@@ -4,10 +4,15 @@ import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { initializeApp } from 'firebase-admin/app';
 import { credential } from 'firebase-admin';
-
 import { AppModule } from './app.module';
+
+ConfigModule.forRoot({
+  envFilePath: `.env${
+    process.env.NODE_ENV === 'production' ? '' : '.' + process.env.NODE_ENV
+  }`,
+});
+
 const { privateKey } = JSON.parse(process.env.FIREBASE_PRIVATE_KEY);
-ConfigModule.forRoot();
 
 async function bootstrap() {
   initializeApp({

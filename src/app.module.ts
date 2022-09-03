@@ -10,11 +10,19 @@ import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { HistorialModule } from './historial/historial.module';
 
-ConfigModule.forRoot();
+ConfigModule.forRoot({
+  envFilePath: `.env${
+    process.env.NODE_ENV === 'production' ? '' : '.' + process.env.NODE_ENV
+  }`,
+});
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: `.env${
+        process.env.NODE_ENV === 'production' ? '' : '.' + process.env.NODE_ENV
+      }`,
+    }),
     MongooseModule.forRoot(process.env.MONGO_URI, {
       dbName: process.env.DB_NAME,
     }),
