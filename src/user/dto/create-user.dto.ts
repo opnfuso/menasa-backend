@@ -1,4 +1,10 @@
-import { IsEmail, IsPhoneNumber, IsString, IsUrl } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsPhoneNumber,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -15,4 +21,7 @@ export class CreateUserDto {
 
   @IsUrl()
   photoURL: string;
+
+  @IsBoolean()
+  isAdmin: boolean;
 }

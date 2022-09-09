@@ -5,8 +5,20 @@ import { getAuth } from 'firebase-admin/auth';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return getAuth().createUser(createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    const create = createUserDto;
+    delete create.isAdmin;
+    const user = await getAuth().createUser(create);
+
+    if (createUserDto.isAdmin) {
+      const res = await getAuth().setCustomUserClaims(user.uid, {
+        admin: true,
+      });
+
+      console.log(res);
+    }
+
+    return user;
   }
 
   findAll() {
