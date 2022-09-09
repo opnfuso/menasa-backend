@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { getAuth } from 'firebase-admin/auth';
+import { ForbiddenException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class UserService {
@@ -29,8 +30,28 @@ export class UserService {
     return getAuth().getUser(id);
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return getAuth().updateUser(id, updateUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    if ('isAdmin' in updateUserDto) {
+      const updateAdmin = updateUserDto.isAdmin;
+      delete updateUserDto.isAdmin;
+
+      const isAdmin =
+        (await (await getAuth().getUser(id)).customClaims.admin) === true;
+
+      if (isAdmin) {
+        if (updateAdmin) {
+          await getAuth().setCustomUserClaims(id, { admin: true });
+          return getAuth().updateUser(id, updateUserDto);
+        } else {
+          await getAuth().setCustomUserClaims(id, { admin: false });
+          return getAuth().updateUser(id, updateUserDto);
+        }
+      } else {
+        throw new ForbiddenException();
+      }
+    } else {
+      return getAuth().updateUser(id, updateUserDto);
+    }
   }
 
   // remove(id: number) {
