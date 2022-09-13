@@ -22,8 +22,9 @@ export class UserService {
     return user;
   }
 
-  findAll() {
-    return getAuth().listUsers();
+  async findAll() {
+    const users = await getAuth().listUsers();
+    return users.users;
   }
 
   findOne(id: string) {
