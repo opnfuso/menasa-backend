@@ -12,14 +12,14 @@ export class InventarioService {
     @InjectModel(Inventario.name)
     private inventarioModel: Model<InventarioDocument>,
     private readonly medicamentoService: MedicamentoService,
-  ) { }
+  ) {}
 
   async create(createInventarioDto: CreateInventarioDto) {
     let total = 0;
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
-    await this.medicamentoService.update(id_medicamento, {
+    await this.medicamentoService.update(id_medicamento.toString(), {
       hasInventory: true,
     });
 
