@@ -31,4 +31,8 @@ export class CreateMedicamentoDto {
   @IsOptional()
   @IsBoolean()
   hasInventory: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  disabled: boolean;
 }

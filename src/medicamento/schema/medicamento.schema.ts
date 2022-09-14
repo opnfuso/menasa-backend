@@ -22,6 +22,9 @@ export class Medicamento {
 
   @Prop({ default: false })
   hasInventory: boolean;
+
+  @Prop({ default: false })
+  disabled: boolean;
 }
 
 export const MedicamentoSchema = SchemaFactory.createForClass(Medicamento);
