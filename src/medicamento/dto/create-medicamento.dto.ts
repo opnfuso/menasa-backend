@@ -1,4 +1,12 @@
-import { IsInt, IsNotEmpty, IsNumber, Min, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  Min,
+  IsString,
+  IsOptional,
+  IsBoolean,
+} from 'class-validator';
 
 export class CreateMedicamentoDto {
   @IsInt()
@@ -19,4 +27,8 @@ export class CreateMedicamentoDto {
   @IsString()
   @IsNotEmpty()
   laboratorio: string;
+
+  @IsOptional()
+  @IsBoolean()
+  hasInventory: boolean;
 }
