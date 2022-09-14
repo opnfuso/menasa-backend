@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { InventarioService } from './inventario.service';
 import { InventarioController } from './inventario.controller';
 import { Inventario, InventarioSchema } from './schema/inventario.schema';
+import { MedicamentoService } from 'src/medicamento/medicamento.service';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { Inventario, InventarioSchema } from './schema/inventario.schema';
     ]),
   ],
   controllers: [InventarioController],
-  providers: [InventarioService],
+  providers: [InventarioService, MedicamentoService],
 })
-export class InventarioModule {}
+export class InventarioModule { }
