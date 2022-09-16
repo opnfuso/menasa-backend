@@ -7,22 +7,21 @@ import { ForbiddenException } from '@nestjs/common/exceptions';
 @Injectable()
 export class UserService {
   async create(createUserDto: CreateUserDto) {
+    const isAdmin = createUserDto.isAdmin;
     const create = createUserDto;
     delete create.isAdmin;
     const user = await getAuth().createUser(create);
 
-    if (createUserDto.isAdmin) {
-      const res = await getAuth().setCustomUserClaims(user.uid, {
+    console.log(isAdmin);
+
+    if (isAdmin) {
+      await getAuth().setCustomUserClaims(user.uid, {
         admin: true,
       });
-
-      console.log(res);
     } else {
-      const res = await getAuth().setCustomUserClaims(user.uid, {
+      await getAuth().setCustomUserClaims(user.uid, {
         admin: false,
       });
-
-      console.log(res);
     }
 
     return user;
@@ -66,7 +65,7 @@ export class UserService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  remove(id: string) {
+    return getAuth().deleteUser(id);
+  }
 }
