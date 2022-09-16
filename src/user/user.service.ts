@@ -17,6 +17,12 @@ export class UserService {
       });
 
       console.log(res);
+    } else {
+      const res = await getAuth().setCustomUserClaims(user.uid, {
+        admin: false,
+      });
+
+      console.log(res);
     }
 
     return user;
@@ -27,16 +33,18 @@ export class UserService {
     return users.users;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return getAuth().getUser(id);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    const updateId = updateUserDto.uid;
     if ('isAdmin' in updateUserDto) {
       const updateAdmin = updateUserDto.isAdmin;
       delete updateUserDto.isAdmin;
 
       const customClaims = (await getAuth().getUser(id)).customClaims;
+      console.log(customClaims);
       if (customClaims === undefined || customClaims.admin === undefined) {
         throw new ForbiddenException();
       }
@@ -45,17 +53,17 @@ export class UserService {
 
       if (isAdmin) {
         if (updateAdmin) {
-          await getAuth().setCustomUserClaims(id, { admin: true });
-          return getAuth().updateUser(id, updateUserDto);
+          await getAuth().setCustomUserClaims(updateId, { admin: true });
+          return getAuth().updateUser(updateId, updateUserDto);
         } else {
-          await getAuth().setCustomUserClaims(id, { admin: false });
-          return getAuth().updateUser(id, updateUserDto);
+          await getAuth().setCustomUserClaims(updateId, { admin: false });
+          return getAuth().updateUser(updateId, updateUserDto);
         }
       } else {
         throw new ForbiddenException();
       }
     } else {
-      return getAuth().updateUser(id, updateUserDto);
+      return getAuth().updateUser(updateId, updateUserDto);
     }
   }
 
