@@ -37,10 +37,6 @@ export class CreateInventarioDto {
   @Type(() => Lote)
   lotes: Array<Lote>;
 
-  @IsInt()
-  @Min(1)
-  piezas: number;
-
   @IsMongoId()
   @IsNotEmpty()
   id_medicamento: mongoose.Types.ObjectId;

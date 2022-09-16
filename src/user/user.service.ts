@@ -44,7 +44,6 @@ export class UserService {
       delete updateUserDto.isAdmin;
 
       const customClaims = (await getAuth().getUser(id)).customClaims;
-      console.log(customClaims);
       if (customClaims === undefined || customClaims.admin === undefined) {
         throw new ForbiddenException();
       }
