@@ -40,4 +40,6 @@ export class CreateInventarioDto {
   @IsMongoId()
   @IsNotEmpty()
   id_medicamento: mongoose.Types.ObjectId;
+
+  piezas: number;
 }
