@@ -7,16 +7,21 @@ import { ForbiddenException } from '@nestjs/common/exceptions';
 @Injectable()
 export class UserService {
   async create(createUserDto: CreateUserDto) {
+    const isAdmin = createUserDto.isAdmin;
     const create = createUserDto;
     delete create.isAdmin;
     const user = await getAuth().createUser(create);
 
-    if (createUserDto.isAdmin) {
-      const res = await getAuth().setCustomUserClaims(user.uid, {
+    console.log(isAdmin);
+
+    if (isAdmin) {
+      await getAuth().setCustomUserClaims(user.uid, {
         admin: true,
       });
-
-      console.log(res);
+    } else {
+      await getAuth().setCustomUserClaims(user.uid, {
+        admin: false,
+      });
     }
 
     return user;
@@ -27,11 +32,12 @@ export class UserService {
     return users.users;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return getAuth().getUser(id);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
+    const updateId = updateUserDto.uid;
     if ('isAdmin' in updateUserDto) {
       const updateAdmin = updateUserDto.isAdmin;
       delete updateUserDto.isAdmin;
@@ -45,21 +51,21 @@ export class UserService {
 
       if (isAdmin) {
         if (updateAdmin) {
-          await getAuth().setCustomUserClaims(id, { admin: true });
-          return getAuth().updateUser(id, updateUserDto);
+          await getAuth().setCustomUserClaims(updateId, { admin: true });
+          return getAuth().updateUser(updateId, updateUserDto);
         } else {
-          await getAuth().setCustomUserClaims(id, { admin: false });
-          return getAuth().updateUser(id, updateUserDto);
+          await getAuth().setCustomUserClaims(updateId, { admin: false });
+          return getAuth().updateUser(updateId, updateUserDto);
         }
       } else {
         throw new ForbiddenException();
       }
     } else {
-      return getAuth().updateUser(id, updateUserDto);
+      return getAuth().updateUser(updateId, updateUserDto);
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
+  remove(id: string) {
+    return getAuth().deleteUser(id);
+  }
 }

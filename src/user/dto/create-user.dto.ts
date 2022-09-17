@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsEmail,
+  IsNotEmpty,
   IsPhoneNumber,
   IsString,
   IsUrl,
@@ -17,6 +18,7 @@ export class CreateUserDto {
   displayName: string;
 
   @IsString()
+  @IsNotEmpty()
   password: string;
 
   @IsUrl()

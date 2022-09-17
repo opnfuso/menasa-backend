@@ -16,10 +16,9 @@ import { RolesGuard } from 'src/auth/roles/roles.guard';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
-  // @UseGuards(AuthGuard('firebase-jwt'))
-  @UseGuards(new RolesGuard('admin'))
+  @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -43,8 +42,9 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.userService.remove(+id);
-  // }
+  @UseGuards(AuthGuard('firebase-jwt'))
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
+  }
 }
