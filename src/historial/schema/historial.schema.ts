@@ -14,6 +14,9 @@ export class Historial {
   @Prop({ required: true })
   category: string;
 
+  @Prop({ required: true })
+  action: string;
+
   @Prop({
     required: false,
     type: MSchema.Types.ObjectId,
