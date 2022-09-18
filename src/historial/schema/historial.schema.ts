@@ -14,6 +14,9 @@ export class Historial {
   @Prop({ required: true })
   category: string;
 
+  @Prop({ required: true, default: Date.now, type: MSchema.Types.Date })
+  createdAt: Date;
+
   @Prop({
     required: false,
     type: MSchema.Types.ObjectId,

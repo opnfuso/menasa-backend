@@ -9,6 +9,8 @@ import {
   Medicamento,
   MedicamentoSchema,
 } from 'src/medicamento/schema/medicamento.schema';
+import { HistorialService } from 'src/historial/historial.service';
+import { Historial, HistorialSchema } from 'src/historial/schema/historial.schema';
 
 @Module({
   imports: [
@@ -18,8 +20,11 @@ import {
     MongooseModule.forFeature([
       { name: Medicamento.name, schema: MedicamentoSchema },
     ]),
+    MongooseModule.forFeature([
+      { name: Historial.name, schema: HistorialSchema },
+    ]),
   ],
   controllers: [InventarioController],
-  providers: [InventarioService, MedicamentoService],
+  providers: [InventarioService, MedicamentoService, HistorialService],
 })
-export class InventarioModule {}
+export class InventarioModule { }

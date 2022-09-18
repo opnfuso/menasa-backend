@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { HistorialService } from 'src/historial/historial.service';
 import { MedicamentoService } from 'src/medicamento/medicamento.service';
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
@@ -12,7 +13,8 @@ export class InventarioService {
     @InjectModel(Inventario.name)
     private inventarioModel: Model<InventarioDocument>,
     private readonly medicamentoService: MedicamentoService,
-  ) {}
+    private historialService: HistorialService,
+  ) { }
 
   async create(createInventarioDto: CreateInventarioDto) {
     let total = 0;
@@ -55,12 +57,14 @@ export class InventarioService {
       await this.medicamentoService.update(id_medicamento.toString(), {
         hasInventory: false,
       });
-    }
 
-    updateInventarioDto.piezas = total;
-    return this.inventarioModel
-      .updateOne({ _id: id }, updateInventarioDto)
-      .exec();
+      await this.inventarioModel.deleteOne({ _id: id });
+    } else {
+      updateInventarioDto.piezas = total;
+      return this.inventarioModel
+        .updateOne({ _id: id }, updateInventarioDto)
+        .exec();
+    }
   }
 
   // remove(id: number) {

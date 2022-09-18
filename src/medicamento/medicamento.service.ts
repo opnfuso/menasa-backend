@@ -10,7 +10,7 @@ export class MedicamentoService {
   constructor(
     @InjectModel(Medicamento.name)
     private medicamentoModel: Model<MedicamentoDocument>,
-  ) {}
+  ) { }
 
   create(createMedicamentoDto: CreateMedicamentoDto) {
     return this.medicamentoModel.create(createMedicamentoDto);
