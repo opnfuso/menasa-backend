@@ -10,11 +10,13 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { MedicamentoService } from './medicamento.service';
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @Controller('medicamento')
 export class MedicamentoController {
@@ -22,8 +24,11 @@ export class MedicamentoController {
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
-  async create(@Body() createMedicamentoDto: CreateMedicamentoDto) {
-    return await this.medicamentoService.create(createMedicamentoDto);
+  async create(
+    @Body() createMedicamentoDto: CreateMedicamentoDto,
+    @Req() request: Request,
+  ) {
+    return await this.medicamentoService.create(createMedicamentoDto, request);
   }
 
   @UseGuards(AuthGuard('firebase-jwt'))
@@ -58,8 +63,13 @@ export class MedicamentoController {
   async update(
     @Param('id') id: string,
     @Body() updateMedicamentoDto: UpdateMedicamentoDto,
+    @Req() request: Request,
   ) {
-    return await this.medicamentoService.update(id, updateMedicamentoDto);
+    return await this.medicamentoService.update(
+      id,
+      updateMedicamentoDto,
+      request,
+    );
   }
 
   // @Delete(':id')

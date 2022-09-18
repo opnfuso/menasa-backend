@@ -17,7 +17,7 @@ export class InventarioService {
     private inventarioModel: Model<InventarioDocument>,
     private readonly medicamentoService: MedicamentoService,
     private historialService: HistorialService,
-  ) { }
+  ) {}
 
   async create(createInventarioDto: CreateInventarioDto, request: Request) {
     const id = (
@@ -33,9 +33,13 @@ export class InventarioService {
       lote.fecha_vencimiento = new Date(lote.fecha_ingreso);
     });
 
-    await this.medicamentoService.update(id_medicamento.toString(), {
-      hasInventory: true,
-    });
+    await this.medicamentoService.update(
+      id_medicamento.toString(),
+      {
+        hasInventory: true,
+      },
+      request,
+    );
 
     createInventarioDto.lotes.forEach((lote) => {
       total += lote.cantidad;
@@ -91,9 +95,13 @@ export class InventarioService {
     if (total === 0) {
       const id_medicamento = updateInventarioDto.id_medicamento;
 
-      await this.medicamentoService.update(id_medicamento.toString(), {
-        hasInventory: false,
-      });
+      await this.medicamentoService.update(
+        id_medicamento.toString(),
+        {
+          hasInventory: false,
+        },
+        request,
+      );
 
       await this.inventarioModel.deleteOne({ _id: id });
 

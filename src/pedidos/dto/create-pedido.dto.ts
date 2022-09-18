@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsInt,
   IsNotEmpty,
@@ -46,7 +47,15 @@ export class CreatePedidoDto {
 
   @IsOptional()
   @IsDateString()
-  fecha_salida: string;
+  fecha_entrada: Date;
+
+  @IsOptional()
+  @IsDateString()
+  fecha_salida: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  completado: boolean;
 
   @IsArray()
   @ValidateNested({ each: true })
