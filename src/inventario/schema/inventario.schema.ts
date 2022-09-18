@@ -8,7 +8,7 @@ class Lote {
   @Prop({ required: false, type: MSchema.Types.Date })
   fecha_vencimiento: Date;
 
-  @Prop({ required: true, default: Date.now, type: MSchema.Types.Date })
+  @Prop({ required: true, type: MSchema.Types.Date })
   fecha_ingreso: Date;
 
   @Prop({ required: true })

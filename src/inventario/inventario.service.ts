@@ -21,6 +21,11 @@ export class InventarioService {
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
+    createInventarioDto.lotes.forEach((lote) => {
+      lote.fecha_ingreso = new Date(lote.fecha_ingreso);
+      lote.fecha_vencimiento = new Date(lote.fecha_ingreso);
+    });
+
     await this.medicamentoService.update(id_medicamento.toString(), {
       hasInventory: true,
     });
@@ -46,6 +51,11 @@ export class InventarioService {
 
   async update(id: string, updateInventarioDto: UpdateInventarioDto) {
     let total = 0;
+
+    updateInventarioDto.lotes.forEach((lote) => {
+      lote.fecha_ingreso = new Date(lote.fecha_ingreso);
+      lote.fecha_vencimiento = new Date(lote.fecha_ingreso);
+    });
 
     updateInventarioDto.lotes.forEach((lote) => {
       total += lote.cantidad;

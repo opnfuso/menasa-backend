@@ -19,6 +19,12 @@ class Lote {
   @IsDateString()
   fecha_ingreso: Date;
 
+  @IsDateString()
+  fecha_vencimiento_string: Date;
+
+  @IsDateString()
+  fecha_ingreso_string: Date;
+
   @IsInt()
   @Min(1)
   cantidad: number;
