@@ -29,9 +29,9 @@ export type PedidoDocument = Document & Pedido;
 //   id_inventario: Inventario;
 // }
 
-class Id_inventario {
-  id_inventario: MSchema.Types.ObjectId;
-}
+// class Id_inventario {
+//   id_inventario: MSchema.Types.ObjectId;
+// }
 
 @Schema()
 export class Pedido {

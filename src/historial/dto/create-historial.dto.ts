@@ -12,13 +12,13 @@ export class CreateHistorialDto {
 
   @IsOptional()
   @IsMongoId()
-  id_medicamento: mongoose.Types.ObjectId;
+  id_medicamento?: mongoose.Types.ObjectId;
 
   @IsOptional()
   @IsMongoId()
-  id_inventario: mongoose.Types.ObjectId;
+  id_inventario?: mongoose.Types.ObjectId;
 
   @IsOptional()
   @IsMongoId()
-  id_pedido: mongoose.Types.ObjectId;
+  id_pedido?: mongoose.Types.ObjectId;
 }

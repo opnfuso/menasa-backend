@@ -46,7 +46,7 @@ export class CreatePedidoDto {
 
   @IsOptional()
   @IsDateString()
-  fecha_salida: Date;
+  fecha_salida: string;
 
   @IsArray()
   @ValidateNested({ each: true })

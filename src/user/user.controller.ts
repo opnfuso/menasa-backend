@@ -16,7 +16,7 @@ import { RolesGuard } from 'src/auth/roles/roles.guard';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
