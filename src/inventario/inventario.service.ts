@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Request } from 'express';
+import { getAuth } from 'firebase-admin/auth';
+import mongoose, { Model } from 'mongoose';
+import { CreateHistorialDto } from 'src/historial/dto/create-historial.dto';
 import { HistorialService } from 'src/historial/historial.service';
 import { MedicamentoService } from 'src/medicamento/medicamento.service';
 import { CreateInventarioDto } from './dto/create-inventario.dto';
@@ -16,7 +19,11 @@ export class InventarioService {
     private historialService: HistorialService,
   ) { }
 
-  async create(createInventarioDto: CreateInventarioDto) {
+  async create(createInventarioDto: CreateInventarioDto, request: Request) {
+    const id = (
+      await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
+    ).uid;
+
     let total = 0;
 
     const id_medicamento = createInventarioDto.id_medicamento;
@@ -35,7 +42,19 @@ export class InventarioService {
     });
 
     createInventarioDto.piezas = total;
-    return this.inventarioModel.create(createInventarioDto);
+
+    const inventario = await this.inventarioModel.create(createInventarioDto);
+
+    const historial: CreateHistorialDto = {
+      category: 'inventario',
+      userId: id,
+      action: 'create',
+      id_inventario: inventario._id,
+    };
+
+    await this.historialService.create(historial);
+
+    return inventario;
   }
 
   findAll() {
@@ -49,7 +68,15 @@ export class InventarioService {
       .exec();
   }
 
-  async update(id: string, updateInventarioDto: UpdateInventarioDto) {
+  async update(
+    id: string,
+    updateInventarioDto: UpdateInventarioDto,
+    request: Request,
+  ) {
+    const uid = (
+      await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
+    ).uid;
+
     let total = 0;
 
     updateInventarioDto.lotes.forEach((lote) => {
@@ -69,11 +96,31 @@ export class InventarioService {
       });
 
       await this.inventarioModel.deleteOne({ _id: id });
+
+      const historial: CreateHistorialDto = {
+        category: 'inventario',
+        userId: uid,
+        action: 'delete',
+        id_inventario: new mongoose.Types.ObjectId(id),
+      };
+
+      await this.historialService.create(historial);
     } else {
       updateInventarioDto.piezas = total;
-      return this.inventarioModel
+      const inventario = await this.inventarioModel
         .updateOne({ _id: id }, updateInventarioDto)
         .exec();
+
+      const historial: CreateHistorialDto = {
+        category: 'inventario',
+        userId: uid,
+        action: 'update',
+        id_inventario: new mongoose.Types.ObjectId(id),
+      };
+
+      await this.historialService.create(historial);
+
+      return inventario;
     }
   }
 

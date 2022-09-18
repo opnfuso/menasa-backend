@@ -10,7 +10,10 @@ import {
   MedicamentoSchema,
 } from 'src/medicamento/schema/medicamento.schema';
 import { HistorialService } from 'src/historial/historial.service';
-import { Historial, HistorialSchema } from 'src/historial/schema/historial.schema';
+import {
+  Historial,
+  HistorialSchema,
+} from 'src/historial/schema/historial.schema';
 
 @Module({
   imports: [
@@ -27,4 +30,4 @@ import { Historial, HistorialSchema } from 'src/historial/schema/historial.schem
   controllers: [InventarioController],
   providers: [InventarioService, MedicamentoService, HistorialService],
 })
-export class InventarioModule { }
+export class InventarioModule {}

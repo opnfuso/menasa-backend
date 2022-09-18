@@ -10,7 +10,7 @@ export class ChatService {
   constructor(
     @InjectModel(Chat.name)
     private chatModel: Model<ChatDocument>,
-  ) { }
+  ) {}
 
   create(createChatDto: CreateChatDto) {
     return this.chatModel.create(createChatDto);

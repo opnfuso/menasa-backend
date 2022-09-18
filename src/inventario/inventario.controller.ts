@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { InventarioService } from './inventario.service';
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @Controller('inventario')
 export class InventarioController {
@@ -19,8 +21,11 @@ export class InventarioController {
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
-  async create(@Body() createInventarioDto: CreateInventarioDto) {
-    return await this.inventarioService.create(createInventarioDto);
+  async create(
+    @Body() createInventarioDto: CreateInventarioDto,
+    @Req() request: Request,
+  ) {
+    return await this.inventarioService.create(createInventarioDto, request);
   }
 
   @UseGuards(AuthGuard('firebase-jwt'))
@@ -40,8 +45,9 @@ export class InventarioController {
   update(
     @Param('id') id: string,
     @Body() updateInventarioDto: UpdateInventarioDto,
+    @Req() request: Request,
   ) {
-    return this.inventarioService.update(id, updateInventarioDto);
+    return this.inventarioService.update(id, updateInventarioDto, request);
   }
 
   // @Delete(':id')

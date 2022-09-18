@@ -10,6 +10,10 @@ export class CreateHistorialDto {
   @IsString()
   category: string;
 
+  @IsNotEmpty()
+  @IsString()
+  action: string;
+
   @IsOptional()
   @IsMongoId()
   id_medicamento?: mongoose.Types.ObjectId;
