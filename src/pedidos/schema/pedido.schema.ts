@@ -55,13 +55,11 @@ export class Pedido {
         precio_sugerido: { type: Number, required: true },
         descuento: { type: Number, required: true },
         precio_total: { type: Number, required: true },
-        id_inventario: [
-          {
-            type: MSchema.Types.ObjectId,
-            required: true,
-            ref: Inventario.name,
-          },
-        ],
+        id_inventario: {
+          type: MSchema.Types.ObjectId,
+          required: true,
+          ref: Inventario.name,
+        },
       },
     ]),
   )

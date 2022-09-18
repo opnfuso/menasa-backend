@@ -12,11 +12,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-class Inventario {
-  @IsNotEmpty()
-  id: string;
-}
-
 class Medicamento {
   @IsInt()
   @Min(1)
@@ -35,9 +30,9 @@ class Medicamento {
   @IsNumber()
   precio_total: number;
 
-  @IsArray()
-  @Type(() => Inventario)
-  id_inventario: Array<Inventario>;
+  @IsString()
+  @IsNotEmpty()
+  id_inventario: string;
 }
 
 export class CreatePedidoDto {
