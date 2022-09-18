@@ -7,12 +7,13 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/auth/roles/roles.guard';
+import { Request } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -20,8 +21,8 @@ export class UserController {
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
+    return this.userService.create(createUserDto, request);
   }
 
   @UseGuards(AuthGuard('firebase-jwt'))
@@ -38,13 +39,17 @@ export class UserController {
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() request: Request,
+  ) {
+    return this.userService.update(id, updateUserDto, request);
   }
 
   @UseGuards(AuthGuard('firebase-jwt'))
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  remove(@Param('id') id: string, @Req() request: Request) {
+    return this.userService.remove(id, request);
   }
 }

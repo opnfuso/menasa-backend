@@ -25,4 +25,9 @@ export class CreateHistorialDto {
   @IsOptional()
   @IsMongoId()
   id_pedido?: mongoose.Types.ObjectId;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  id_user?: string;
 }

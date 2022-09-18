@@ -4,16 +4,17 @@ import { Request } from 'express';
 import { getAuth } from 'firebase-admin/auth';
 import mongoose, { Model } from 'mongoose';
 import { CreateHistorialDto } from 'src/historial/dto/create-historial.dto';
+import { HistorialService } from 'src/historial/historial.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { Pedido, PedidoDocument } from './schema/pedido.schema';
 
 @Injectable()
 export class PedidosService {
-  historialService: any;
   constructor(
     @InjectModel(Pedido.name)
     private readonly pedidoModel: Model<PedidoDocument>,
+    private historialService: HistorialService,
   ) {}
 
   async create(createPedidoDto: CreatePedidoDto, request: Request) {

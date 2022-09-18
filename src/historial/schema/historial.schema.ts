@@ -40,6 +40,9 @@ export class Historial {
     ref: Pedido.name,
   })
   id_pedido: Pedido;
+
+  @Prop({ required: false })
+  id_user: string;
 }
 
 export const HistorialSchema = SchemaFactory.createForClass(Historial);
