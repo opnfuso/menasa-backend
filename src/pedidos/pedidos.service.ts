@@ -78,6 +78,17 @@ export class PedidosService {
       updatePedidoDto.fecha_salida = new Date(updatePedidoDto.fecha_salida);
     }
 
+    updatePedidoDto.medicamentos.forEach((medicamento) => {
+      let totalLotes = 0;
+      medicamento.inventario.lotes.forEach((lote) => {
+        totalLotes += lote.cantidad;
+      });
+
+      if (totalLotes < medicamento.piezas) {
+        updatePedidoDto.medicamentosFaltantes = true;
+      }
+    });
+
     const pedido = await this.pedidoModel
       .updateOne({ _id: id }, updatePedidoDto)
       .exec();
