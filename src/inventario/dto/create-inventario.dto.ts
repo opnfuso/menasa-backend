@@ -9,6 +9,7 @@ import {
   IsMongoId,
   IsOptional,
   IsDateString,
+  IsNumber,
 } from 'class-validator';
 import mongoose from 'mongoose';
 
@@ -26,7 +27,7 @@ class Lote {
   fecha_ingreso_string: Date;
 
   @IsInt()
-  @Min(1)
+  @Min(0)
   cantidad: number;
 
   @IsString()
@@ -47,5 +48,7 @@ export class CreateInventarioDto {
   @IsNotEmpty()
   id_medicamento: mongoose.Types.ObjectId;
 
+  @IsOptional()
+  @IsNumber()
   piezas: number;
 }

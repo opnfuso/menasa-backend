@@ -88,31 +88,25 @@ export class InventarioService {
       lote.fecha_vencimiento = new Date(lote.fecha_ingreso);
     });
 
-    updateInventarioDto.lotes.forEach((lote) => {
+    updateInventarioDto.lotes.forEach((lote, index) => {
       total += lote.cantidad;
     });
 
-    if (total === 0) {
-      const id_medicamento = updateInventarioDto.id_medicamento;
-
-      await this.medicamentoService.update(
-        id_medicamento.toString(),
-        {
-          hasInventory: false,
-        },
-        request,
-      );
-
-      await this.inventarioModel.deleteOne({ _id: id });
+    if (total <= 0) {
+      const inventario = await this.inventarioModel
+        .updateOne({ _id: id }, updateInventarioDto)
+        .exec();
 
       const historial: CreateHistorialDto = {
         category: 'inventario',
         userId: uid,
-        action: 'eliminar',
+        action: 'actualizar',
         id_inventario: new mongoose.Types.ObjectId(id),
       };
 
       await this.historialService.create(historial);
+
+      return inventario;
     } else {
       updateInventarioDto.piezas = total;
       const inventario = await this.inventarioModel

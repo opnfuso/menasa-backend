@@ -23,7 +23,9 @@ export class PedidosService {
     ).uid;
 
     createPedidoDto.fecha_entrada = new Date(createPedidoDto.fecha_entrada);
-    createPedidoDto.fecha_salida = new Date(createPedidoDto.fecha_salida);
+    if (createPedidoDto.fecha_salida) {
+      createPedidoDto.fecha_salida = new Date(createPedidoDto.fecha_salida);
+    }
 
     const pedido = await this.pedidoModel.create(createPedidoDto);
 
@@ -61,7 +63,9 @@ export class PedidosService {
     ).uid;
 
     updatePedidoDto.fecha_entrada = new Date(updatePedidoDto.fecha_entrada);
-    updatePedidoDto.fecha_salida = new Date(updatePedidoDto.fecha_salida);
+    if (updatePedidoDto.fecha_salida) {
+      updatePedidoDto.fecha_salida = new Date(updatePedidoDto.fecha_salida);
+    }
 
     const pedido = await this.pedidoModel
       .updateOne({ _id: id }, updatePedidoDto)

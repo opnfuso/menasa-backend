@@ -4,13 +4,16 @@ import {
   IsBoolean,
   IsDateString,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   Min,
   ValidateNested,
 } from 'class-validator';
+import { Inventario } from 'src/inventario/schema/inventario.schema';
 
 class Medicamento {
   @IsInt()
@@ -30,9 +33,13 @@ class Medicamento {
   @IsNumber()
   precio_total: number;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsMongoId()
   id_inventario: string;
+
+  @IsObject()
+  @Type(() => Inventario)
+  @IsNotEmpty()
+  inventario: Inventario;
 }
 
 export class CreatePedidoDto {
@@ -40,7 +47,6 @@ export class CreatePedidoDto {
   @IsString()
   cliente: string;
 
-  @IsOptional()
   @IsDateString()
   fecha_entrada: Date;
 
