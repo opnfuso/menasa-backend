@@ -24,7 +24,7 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = 0;
+    let total = updateInventarioDto.piezas;
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
@@ -81,7 +81,7 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = 0;
+    let total = updateInventarioDto.piezas;
 
     updateInventarioDto.lotes.forEach((lote) => {
       lote.fecha_ingreso = new Date(lote.fecha_ingreso);

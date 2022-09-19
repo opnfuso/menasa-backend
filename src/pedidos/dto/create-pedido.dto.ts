@@ -62,4 +62,8 @@ export class CreatePedidoDto {
   @ValidateNested({ each: true })
   @Type(() => Medicamento)
   medicamentos: Array<Medicamento>;
+
+  @IsOptional()
+  @IsBoolean()
+  medicamentosFaltantes: boolean;
 }

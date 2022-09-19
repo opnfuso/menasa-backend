@@ -98,6 +98,9 @@ export class Pedido {
     ]),
   )
   medicamentos: Inventario[];
+
+  @Prop({ required: true })
+  medicamentosFaltantes: boolean;
 }
 
 export const PedidoSchema = SchemaFactory.createForClass(Pedido);

@@ -27,6 +27,17 @@ export class PedidosService {
       createPedidoDto.fecha_salida = new Date(createPedidoDto.fecha_salida);
     }
 
+    createPedidoDto.medicamentos.forEach((medicamento) => {
+      let totalLotes = 0;
+      medicamento.inventario.lotes.forEach((lote) => {
+        totalLotes += lote.cantidad;
+      });
+
+      if (totalLotes < medicamento.piezas) {
+        createPedidoDto.medicamentosFaltantes = true;
+      }
+    });
+
     const pedido = await this.pedidoModel.create(createPedidoDto);
 
     const historial: CreateHistorialDto = {
