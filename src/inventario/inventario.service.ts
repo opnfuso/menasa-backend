@@ -24,7 +24,7 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = updateInventarioDto.piezas;
+    let total = createInventarioDto.piezas;
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
