@@ -52,7 +52,7 @@ export class InventarioService {
     const historial: CreateHistorialDto = {
       category: 'inventario',
       userId: id,
-      action: 'create',
+      action: 'crear',
       id_inventario: inventario._id,
     };
 
@@ -108,7 +108,7 @@ export class InventarioService {
       const historial: CreateHistorialDto = {
         category: 'inventario',
         userId: uid,
-        action: 'delete',
+        action: 'eliminar',
         id_inventario: new mongoose.Types.ObjectId(id),
       };
 
@@ -122,7 +122,7 @@ export class InventarioService {
       const historial: CreateHistorialDto = {
         category: 'inventario',
         userId: uid,
-        action: 'update',
+        action: 'actualizar',
         id_inventario: new mongoose.Types.ObjectId(id),
       };
 

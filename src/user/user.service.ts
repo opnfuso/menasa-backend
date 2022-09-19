@@ -40,7 +40,7 @@ export class UserService {
     const historial: CreateHistorialDto = {
       category: 'user',
       userId: id,
-      action: 'create',
+      action: 'crear',
       id_user: user.uid,
     };
 
@@ -81,7 +81,7 @@ export class UserService {
           const historial: CreateHistorialDto = {
             category: 'user',
             userId: uid,
-            action: 'update',
+            action: 'actualizar',
             id_user: id,
           };
 
@@ -93,7 +93,7 @@ export class UserService {
           const historial: CreateHistorialDto = {
             category: 'user',
             userId: uid,
-            action: 'update',
+            action: 'actulizar',
             id_user: id,
           };
 
@@ -107,7 +107,7 @@ export class UserService {
       const historial: CreateHistorialDto = {
         category: 'user',
         userId: uid,
-        action: 'update',
+        action: 'actualizar',
         id_user: id,
       };
 
@@ -124,7 +124,7 @@ export class UserService {
     const historial: CreateHistorialDto = {
       category: 'user',
       userId: uid,
-      action: 'delete',
+      action: 'eliminar',
       id_user: id,
     };
 

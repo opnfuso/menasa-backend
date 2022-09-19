@@ -29,7 +29,7 @@ export class MedicamentoService {
     const historial: CreateHistorialDto = {
       category: 'medicamento',
       userId: id,
-      action: 'create',
+      action: 'crear',
       id_medicamento: medicamento._id,
     };
 
@@ -78,7 +78,7 @@ export class MedicamentoService {
       const historial: CreateHistorialDto = {
         category: 'medicamento',
         userId: uid,
-        action: 'delete',
+        action: 'eliminar',
         id_medicamento: new mongoose.Types.ObjectId(id),
       };
 
@@ -87,7 +87,7 @@ export class MedicamentoService {
       const historial: CreateHistorialDto = {
         category: 'medicamento',
         userId: uid,
-        action: 'update',
+        action: 'actualizar',
         id_medicamento: new mongoose.Types.ObjectId(id),
       };
 

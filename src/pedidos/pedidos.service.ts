@@ -30,7 +30,7 @@ export class PedidosService {
     const historial: CreateHistorialDto = {
       category: 'pedido',
       userId: id,
-      action: 'create',
+      action: 'crear',
       id_medicamento: pedido._id,
     };
 
@@ -71,7 +71,7 @@ export class PedidosService {
       const historial: CreateHistorialDto = {
         category: 'pedido',
         userId: uid,
-        action: 'complete',
+        action: 'completar',
         id_medicamento: new mongoose.Types.ObjectId(id),
       };
 
@@ -80,7 +80,7 @@ export class PedidosService {
       const historial: CreateHistorialDto = {
         category: 'pedido',
         userId: uid,
-        action: 'update',
+        action: 'actualizar',
         id_medicamento: new mongoose.Types.ObjectId(id),
       };
 
