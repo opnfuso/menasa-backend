@@ -24,7 +24,11 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = createInventarioDto.piezas;
+    let total = 0;
+
+    if (typeof createInventarioDto.piezas === 'number') {
+      total = createInventarioDto.piezas;
+    }
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
@@ -81,7 +85,7 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = updateInventarioDto.piezas;
+    let total = 0;
 
     updateInventarioDto.lotes.forEach((lote) => {
       lote.fecha_ingreso = new Date(lote.fecha_ingreso);
