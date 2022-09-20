@@ -17,7 +17,7 @@ class Lote {
   @Prop({ required: true })
   cantidad: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   lote: string;
 
   @Prop({ required: false, default: null })

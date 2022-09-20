@@ -1,5 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MSchema } from 'mongoose';
+import { Document, ObjectId, Schema as MSchema } from 'mongoose';
+import { UpdateInventarioDto } from 'src/inventario/dto/update-inventario.dto';
 import { Medicamento } from 'src/medicamento/schema/medicamento.schema';
 export type PedidoDocument = Document & Pedido;
 
@@ -49,14 +50,19 @@ class Lote {
 }
 
 class Inventario {
-  @Prop({ required: false })
-  lotes: Array<Lote>;
-
-  @Prop({ required: true })
   piezas: number;
 
-  @Prop({ required: true, type: MSchema.Types.ObjectId, ref: Medicamento.name })
-  id_medicamento: Medicamento;
+  descuento: number;
+
+  precio_maximo: number;
+
+  precio_sugerido: number;
+
+  precio_total: number;
+
+  id_inventario: ObjectId;
+
+  inventario: UpdateInventarioDto;
 }
 @Schema()
 export class Pedido {

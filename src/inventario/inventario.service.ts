@@ -76,6 +76,10 @@ export class InventarioService {
       .exec();
   }
 
+  findOneNoPopulate(id: string) {
+    return this.inventarioModel.findOne({ _id: id }).exec();
+  }
+
   async update(
     id: string,
     updateInventarioDto: UpdateInventarioDto,
