@@ -58,17 +58,23 @@ export class PedidosService {
       .find()
       .populate({
         path: 'medicamentos.id_inventario',
-        populate: [
-          {
-            path: 'id_medicamento',
-          },
-        ],
+      })
+      .populate({
+        path: 'medicamentos.inventario.id_medicamento',
       })
       .exec();
   }
 
   findOne(id: string) {
-    return this.pedidoModel.findOne({ _id: id }).exec();
+    return this.pedidoModel
+      .findOne({ _id: id })
+      .populate({
+        path: 'medicamentos.id_inventario',
+      })
+      .populate({
+        path: 'medicamentos.inventario.id_medicamento',
+      })
+      .exec();
   }
 
   async update(id: string, updatePedidoDto: UpdatePedidoDto, request: Request) {
