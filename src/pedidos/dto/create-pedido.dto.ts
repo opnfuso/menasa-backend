@@ -13,7 +13,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { Inventario } from 'src/inventario/schema/inventario.schema';
+import { UpdateInventarioDto } from 'src/inventario/dto/update-inventario.dto';
 
 class Medicamento {
   @IsInt()
@@ -37,9 +37,9 @@ class Medicamento {
   id_inventario: string;
 
   @IsObject()
-  @Type(() => Inventario)
+  @Type(() => UpdateInventarioDto)
   @IsNotEmpty()
-  inventario: Inventario;
+  inventario: UpdateInventarioDto;
 }
 
 export class CreatePedidoDto {

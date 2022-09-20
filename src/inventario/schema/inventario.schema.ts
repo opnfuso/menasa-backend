@@ -11,6 +11,9 @@ class Lote {
   @Prop({ required: true, type: MSchema.Types.Date })
   fecha_ingreso: Date;
 
+  fecha_vencimiento_string: Date;
+  fecha_ingreso_string: Date;
+
   @Prop({ required: true })
   cantidad: number;
 

@@ -5,6 +5,8 @@ import { getAuth } from 'firebase-admin/auth';
 import mongoose, { Model } from 'mongoose';
 import { CreateHistorialDto } from 'src/historial/dto/create-historial.dto';
 import { HistorialService } from 'src/historial/historial.service';
+import { UpdateInventarioDto } from 'src/inventario/dto/update-inventario.dto';
+import { InventarioService } from 'src/inventario/inventario.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { Pedido, PedidoDocument } from './schema/pedido.schema';
@@ -15,6 +17,7 @@ export class PedidosService {
     @InjectModel(Pedido.name)
     private readonly pedidoModel: Model<PedidoDocument>,
     private historialService: HistorialService,
+    private inventarioService: InventarioService,
   ) {}
 
   async create(createPedidoDto: CreatePedidoDto, request: Request) {
@@ -73,19 +76,44 @@ export class PedidosService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
+    const oldPedido = await this.findOne(id);
+
     updatePedidoDto.fecha_entrada = new Date(updatePedidoDto.fecha_entrada);
     if (updatePedidoDto.fecha_salida) {
       updatePedidoDto.fecha_salida = new Date(updatePedidoDto.fecha_salida);
     }
 
-    updatePedidoDto.medicamentos.forEach((medicamento) => {
+    updatePedidoDto.medicamentos.forEach(async (medicamento, index) => {
       let totalLotes = 0;
-      medicamento.inventario.lotes.forEach((lote) => {
+      const inventario = await this.inventarioService.findOne(
+        medicamento.id_inventario,
+      );
+
+      medicamento.inventario.lotes.forEach((lote, indexLote) => {
+        const cantidad =
+          lote.cantidad -
+          oldPedido.medicamentos[index].lotes[indexLote].cantidad;
+
+        inventario.lotes.find((lot) => lot.lote === lote.lote).cantidad +=
+          cantidad;
+
         totalLotes += lote.cantidad;
       });
 
+      const inv: UpdateInventarioDto = {
+        lotes: inventario.lotes,
+      };
+
+      await this.inventarioService.update(
+        medicamento.id_inventario,
+        inv,
+        request,
+      );
+
       if (totalLotes < medicamento.piezas) {
         updatePedidoDto.medicamentosFaltantes = true;
+      } else {
+        updatePedidoDto.medicamentosFaltantes = false;
       }
     });
 
