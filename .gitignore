@@ -40,3 +40,6 @@ lerna-debug.log*
 
 # VSCode
 .vscode
+
+# LowDB
+db.json

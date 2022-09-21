@@ -89,49 +89,25 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = 0;
-
     updateInventarioDto.lotes.forEach((lote) => {
       lote.fecha_ingreso = new Date(lote.fecha_ingreso);
       lote.fecha_vencimiento = new Date(lote.fecha_ingreso);
     });
 
-    updateInventarioDto.lotes.forEach((lote, index) => {
-      total += lote.cantidad;
-    });
+    const inventario = await this.inventarioModel
+      .updateOne({ _id: id }, updateInventarioDto)
+      .exec();
 
-    if (total <= 0) {
-      const inventario = await this.inventarioModel
-        .updateOne({ _id: id }, updateInventarioDto)
-        .exec();
+    const historial: CreateHistorialDto = {
+      category: 'inventario',
+      userId: uid,
+      action: 'actualizar',
+      id_inventario: new mongoose.Types.ObjectId(id),
+    };
 
-      const historial: CreateHistorialDto = {
-        category: 'inventario',
-        userId: uid,
-        action: 'actualizar',
-        id_inventario: new mongoose.Types.ObjectId(id),
-      };
+    await this.historialService.create(historial);
 
-      await this.historialService.create(historial);
-
-      return inventario;
-    } else {
-      updateInventarioDto.piezas = total;
-      const inventario = await this.inventarioModel
-        .updateOne({ _id: id }, updateInventarioDto)
-        .exec();
-
-      const historial: CreateHistorialDto = {
-        category: 'inventario',
-        userId: uid,
-        action: 'actualizar',
-        id_inventario: new mongoose.Types.ObjectId(id),
-      };
-
-      await this.historialService.create(historial);
-
-      return inventario;
-    }
+    return inventario;
   }
 
   // remove(id: number) {

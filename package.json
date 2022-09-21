@@ -35,6 +35,7 @@
     "dotenv": "^16.0.1",
     "firebase-admin": "^11.0.1",
     "helmet": "^5.1.1",
+    "lowdb": "github:dankreiger/lowdb#chore/esm-cjs-hybrid-WITH-LIB",
     "mongoose": "^6.5.2",
     "passport": "^0.6.0",
     "passport-firebase-jwt": "^1.2.1",
