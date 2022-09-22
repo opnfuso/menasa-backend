@@ -192,34 +192,6 @@ export class PedidosService {
       await this.historialService.create(historial);
     }
     return pedido;
-
-    // console.log(
-    //   'Pedido-------------------------------------------------------',
-    // );
-
-    // console.log(JSON.stringify(updatePedidoDto));
-
-    // updatePedidoDto.medicamentos.forEach(async (medicamento) => {
-    //   const inventario = await this.inventarioService.findOneNoPopulate(
-    //     medicamento.id_inventario.toString(),
-    //   );
-
-    //   if (inventario) {
-    //     medicamento.inventario.lotes.forEach((lote) => {
-    //       inventario.lotes.find((lot) => lot.lote === lote.lote).cantidad -=
-    //         lote.cantidad;
-    //     });
-
-    //     inventario.piezas -= medicamento.piezas;
-    //     medicamento.id_inventario = inventario._id;
-
-    //     const inv: UpdateInventarioDto = {
-    //       lotes: inventario.lotes,
-    //     };
-
-    //     await this.inventarioService.update(inventario._id, inv, request);
-    //   }
-    // });
   }
 
   async deleteOldLotesAndUpdateInventarios(
@@ -228,79 +200,109 @@ export class PedidosService {
     request: Request,
   ): Promise<UpdatePedidoDto> {
     return new Promise<UpdatePedidoDto>((resolve, reject) => {
-      oldPedido.medicamentos.forEach(async (medicamento, index) => {
-        const inventario = await this.inventarioService.findOne(
-          medicamento.id_inventario.toString(),
-        );
+      try {
+        oldPedido.medicamentos.forEach(async (medicamento, index) => {
+          const inventario = await this.inventarioService.findOne(
+            medicamento.id_inventario.toString(),
+          );
 
-        const pedido = pedidoTemp.medicamentos.find(
-          (med) => med.id_inventario === medicamento.id_inventario.toString(),
-        );
+          const pedido = pedidoTemp.medicamentos.find(
+            (med) => med.id_inventario === medicamento.id_inventario.toString(),
+          );
 
-        if (pedido === undefined || pedido.inventario.lotes.length === 0) {
-          medicamento.inventario.lotes.forEach((lote) => {
-            inventario.lotes.filter(
-              (lo) => lo.lote === lote.lote,
-            )[0].cantidad += lote.cantidad;
-          });
-        } else {
-          medicamento.inventario.lotes.forEach((lote) => {
-            const lotePedido = pedido.inventario.lotes.filter(
-              (lo) => lo.lote === lote.lote,
+          if (pedido === undefined || pedido.inventario.lotes.length === 0) {
+            medicamento.inventario.lotes.forEach((lote) => {
+              inventario.lotes.filter(
+                (lo) => lo.lote === lote.lote,
+              )[0].cantidad += lote.cantidad;
+            });
+          } else {
+            medicamento.inventario.lotes.forEach((lote) => {
+              const lotePedido = pedido.inventario.lotes.filter(
+                (lo) => lo.lote === lote.lote,
+              );
+              let cantidad = 0;
+
+              if (lotePedido.length === 0) {
+                cantidad = lote.cantidad;
+              } else {
+                cantidad =
+                  lote.cantidad -
+                  pedido.inventario.lotes.filter(
+                    (lo) => lo.lote === lote.lote,
+                  )[0].cantidad;
+              }
+
+              inventario.lotes.filter(
+                (lo) => lo.lote === lote.lote,
+              )[0].cantidad += cantidad;
+            });
+          }
+
+          if (pedidoTemp.medicamentos[index]) {
+            const oldLotes = medicamento.inventario.lotes.filter(
+              (med, indexLote) =>
+                med.lote ===
+                pedidoTemp.medicamentos[index].inventario.lotes[indexLote].lote,
             );
-            let cantidad = 0;
+            pedidoTemp.medicamentos[index].inventario.lotes.forEach(
+              (lote, indexLote) => {
+                if (
+                  oldLotes.filter((oldLote) => oldLote.lote === lote.lote)
+                    .length > 0
+                ) {
+                  delete pedidoTemp.medicamentos[index].inventario.lotes[
+                    indexLote
+                  ];
+                }
+              },
+            );
+          } else {
+            inventario.piezas += medicamento.piezas;
+            medicamento.inventario.lotes.forEach((lote) => {
+              inventario.lotes.find((lot) => lot.lote === lote.lote).cantidad +=
+                lote.cantidad;
+            });
+          }
 
-            if (lotePedido.length === 0) {
-              cantidad = lote.cantidad;
-            } else {
-              cantidad =
-                lote.cantidad -
-                pedido.inventario.lotes.filter((lo) => lo.lote === lote.lote)[0]
-                  .cantidad;
-            }
+          const inventarioUpdate: UpdateInventarioDto = {
+            lotes: inventario.lotes,
+            piezas: inventario.piezas,
+          };
 
-            inventario.lotes.filter(
-              (lo) => lo.lote === lote.lote,
-            )[0].cantidad += cantidad;
-          });
-        }
-        const oldLotes = medicamento.inventario.lotes.filter(
-          (med, indexLote) =>
-            med.lote ===
-            pedidoTemp.medicamentos[index].inventario.lotes[indexLote].lote,
-        );
+          this.inventarioService.update(
+            inventario._id.toString(),
+            inventarioUpdate,
+            request,
+          );
 
-        pedidoTemp.medicamentos[index].inventario.lotes.forEach(
-          (lote, indexLote) => {
-            if (
-              oldLotes.filter((oldLote) => oldLote.lote === lote.lote).length >
-              0
-            ) {
-              delete pedidoTemp.medicamentos[index].inventario.lotes[indexLote];
-            }
-          },
-        );
-        // console.log(
-        //   'Inventario-----------------------------------------------------------',
-        // );
-        const inventarioUpdate: UpdateInventarioDto = {
-          lotes: inventario.lotes,
-          piezas: inventario.piezas,
-        };
-
-        this.inventarioService.update(
-          inventario._id.toString(),
-          inventarioUpdate,
-          request,
-        );
-
-        if (index === oldPedido.medicamentos.length - 1) {
-          resolve(pedidoTemp);
-        }
-      });
+          if (index === oldPedido.medicamentos.length - 1) {
+            resolve(pedidoTemp);
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
-  // remove(id: string) {
-  //   return `This action removes a #${id} pedido`;
-  // }
+
+  async remove(id: string) {
+    const oldPedido = await this.findOneNoPopulate(id);
+    oldPedido.medicamentos.forEach(async (medicamento) => {
+      const inventario = await this.inventarioService.findOne(
+        medicamento.id_inventario.toString(),
+      );
+
+      inventario.piezas += medicamento.piezas;
+
+      medicamento.inventario.lotes.forEach((lote) => {
+        inventario.lotes.find((lot) => lot.lote === lote.lote).cantidad +=
+          lote.cantidad;
+      });
+    });
+
+    const pedido = this.pedidoModel.remove({ _id: id });
+
+    return pedido;
+  }
 }

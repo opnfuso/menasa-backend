@@ -50,8 +50,9 @@ export class PedidosController {
     return this.pedidosService.update(id, updatePedidoDto, request);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.pedidosService.remove(id);
-  // }
+  @UseGuards(AuthGuard('firebase-jwt'))
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.pedidosService.remove(id);
+  }
 }
