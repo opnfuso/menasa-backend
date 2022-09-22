@@ -24,11 +24,11 @@ export class InventarioService {
       await getAuth().verifyIdToken(request.headers.authorization.split(' ')[1])
     ).uid;
 
-    let total = 0;
+    // let total = 0;
 
-    if (typeof createInventarioDto.piezas === 'number') {
-      total = createInventarioDto.piezas;
-    }
+    // if (typeof createInventarioDto.piezas === 'number') {
+    //   total = createInventarioDto.piezas;
+    // }
 
     const id_medicamento = createInventarioDto.id_medicamento;
 
@@ -45,11 +45,11 @@ export class InventarioService {
       request,
     );
 
-    createInventarioDto.lotes.forEach((lote) => {
-      total += lote.cantidad;
-    });
+    // createInventarioDto.lotes.forEach((lote) => {
+    //   total += lote.cantidad;
+    // });
 
-    createInventarioDto.piezas = total;
+    // createInventarioDto.piezas = total;
 
     const inventario = await this.inventarioModel.create(createInventarioDto);
 

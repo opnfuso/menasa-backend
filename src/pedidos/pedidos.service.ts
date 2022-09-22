@@ -40,6 +40,8 @@ export class PedidosService {
 
       if (totalLotes < medicamento.piezas) {
         createPedidoDto.medicamentosFaltantes = true;
+      } else {
+        createPedidoDto.medicamentosFaltantes = true;
       }
     });
 
@@ -162,6 +164,8 @@ export class PedidosService {
 
       if (totalLotes < medicamento.piezas) {
         updatePedidoDto.medicamentosFaltantes = true;
+      } else {
+        updatePedidoDto.medicamentosFaltantes = false;
       }
     });
 
