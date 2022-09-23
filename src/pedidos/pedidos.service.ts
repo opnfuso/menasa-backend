@@ -41,7 +41,7 @@ export class PedidosService {
       if (totalLotes < medicamento.piezas) {
         createPedidoDto.medicamentosFaltantes = true;
       } else {
-        createPedidoDto.medicamentosFaltantes = true;
+        createPedidoDto.medicamentosFaltantes = false;
       }
     });
 
