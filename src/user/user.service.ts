@@ -104,6 +104,8 @@ export class UserService {
         throw new ForbiddenException();
       }
     } else {
+      const user = await getAuth().updateUser(updateId, updateUserDto);
+
       const historial: CreateHistorialDto = {
         category: 'user',
         userId: uid,
@@ -112,7 +114,8 @@ export class UserService {
       };
 
       await this.historialService.create(historial);
-      return getAuth().updateUser(updateId, updateUserDto);
+
+      return user;
     }
   }
 
