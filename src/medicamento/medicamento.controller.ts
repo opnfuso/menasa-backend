@@ -22,7 +22,7 @@ import { Request } from 'express';
 export class MedicamentoController {
   constructor(private readonly medicamentoService: MedicamentoService) {}
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   async create(
     @Body() createMedicamentoDto: CreateMedicamentoDto,
@@ -31,7 +31,7 @@ export class MedicamentoController {
     return await this.medicamentoService.create(createMedicamentoDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get('findByFilter')
   async findByFilter(@Query() query: any) {
     const medicamento = await this.medicamentoService.findByFilter(query);
@@ -46,19 +46,19 @@ export class MedicamentoController {
     return medicamento;
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   async findAll() {
     return await this.medicamentoService.findAll();
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.medicamentoService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
   async update(
     @Param('id') id: string,

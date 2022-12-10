@@ -19,25 +19,25 @@ import { Request } from 'express';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   create(@Body() createUserDto: CreateUserDto, @Req() request: Request) {
     return this.userService.create(createUserDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   findAll() {
     return this.userService.findAll();
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -47,7 +47,7 @@ export class UserController {
     return this.userService.update(id, updateUserDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Delete(':id')
   remove(@Param('id') id: string, @Req() request: Request) {
     return this.userService.remove(id, request);

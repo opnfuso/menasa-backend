@@ -19,7 +19,7 @@ import { Request } from 'express';
 export class InventarioController {
   constructor(private readonly inventarioService: InventarioService) {}
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   async create(
     @Body() createInventarioDto: CreateInventarioDto,
@@ -28,19 +28,19 @@ export class InventarioController {
     return await this.inventarioService.create(createInventarioDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   async findAll() {
     return await this.inventarioService.findAll();
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.inventarioService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
   update(
     @Param('id') id: string,

@@ -19,7 +19,7 @@ import { Request } from 'express';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   async create(
     @Body() createPedidoDto: CreatePedidoDto,
@@ -28,19 +28,19 @@ export class PedidosController {
     return await this.pedidosService.create(createPedidoDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   async findAll() {
     return await this.pedidosService.findAll();
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.pedidosService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -50,7 +50,7 @@ export class PedidosController {
     return this.pedidosService.update(id, updatePedidoDto, request);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.pedidosService.remove(id);

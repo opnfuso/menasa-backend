@@ -21,7 +21,7 @@ export class ChatController {
   //   return await this.chatService.create(createChatDto);
   // }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   async findAll() {
     return await this.chatService.findAll();

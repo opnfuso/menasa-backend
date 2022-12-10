@@ -17,13 +17,13 @@ import { AuthGuard } from '@nestjs/passport';
 export class HistorialController {
   constructor(private readonly historialService: HistorialService) {}
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Post()
   create(@Body() createHistorialDto: CreateHistorialDto) {
     return this.historialService.create(createHistorialDto);
   }
 
-  @UseGuards(AuthGuard('firebase-jwt'))
+  // @UseGuards(AuthGuard('firebase-jwt'))
   @Get()
   findAll() {
     return this.historialService.findAll();
